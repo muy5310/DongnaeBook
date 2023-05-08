@@ -49,6 +49,7 @@ function TopBar() {
       localStorage.removeItem('token');
       localStorage.removeItem('email');
       localStorage.removeItem('nickname');
+      movePage('/');
 
     }else{
       //로그아웃 상태이면 로그인 페이지 이동

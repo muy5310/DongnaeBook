@@ -56,7 +56,48 @@ function Chat() {
         });
     }
   }, [selectedRoom]);
-  const findOrCreateChatRoom = async (otherUserEmail) => {
+  useEffect(() => {
+    const sortChatRoomsByLatestMessage = async () => {
+      const sortedChatRooms = await Promise.all(
+        chatRooms.map(async (chatRoom) => {
+          const latestMessage = await getLatestMessageTimestamp(chatRoom.id);
+          return { ...chatRoom, latestMessage };
+        })
+      );
+  
+      sortedChatRooms.sort((a, b) => b.latestMessage - a.latestMessage);
+      setChatRooms(sortedChatRooms);
+    };
+  
+    if (chatRooms.length > 0) {
+      sortChatRoomsByLatestMessage();
+    }
+  }, [chatRooms]);
+  const getLatestMessageTimestamp = async (chatRoomId) => {
+  try {
+    const snapshot = await db
+      .collection("chatRooms")
+      .doc(chatRoomId)
+      .collection("messages")
+      .orderBy("timestamp", "desc")
+      .limit(1)
+      .get();
+
+    if (!snapshot.empty) {
+      return snapshot.docs[0].data().timestamp;
+    }
+  } catch (error) {
+    console.error("Error fetching latest message timestamp:", error);
+  }
+
+  return 0;
+};
+const findOrCreateChatRoom = async (otherUserEmail) => {
+  if (otherUserEmail === user.email) {
+    console.log("Cannot create a chat room with yourself");
+    return;
+  }
+
   try {
     const otherUserSnapshot = await db
       .collection("users")
@@ -99,20 +140,36 @@ function Chat() {
     const otherMember = chatRoom.members.filter((member) => member !== user.uid)[0];
     return otherMember || 'Unknown';
   };
-  const sendMessage = (e) => {
+  const sendMessage = async (e) => {
     e.preventDefault();
     if (input.trim()) {
-      db.collection("chatRooms")
-        .doc(selectedRoom)
-        .collection("messages")
-        .add({
-          text: input,
-          sender: user.uid,
-          timestamp: new Date().getTime(),
-        });
+      if (!selectedRoom) {
+        await findOrCreateChatRoom(otherUserEmail);
+      }
+  
+      const messageData = {
+        text: input,
+        sender: user.uid,
+        timestamp: new Date().getTime(),
+      };
+  
+      const chatRoomRef = db.collection("chatRooms").doc(selectedRoom);
+  
+      // Add the message to the chat room's messages collection
+      await chatRoomRef.collection("messages").add(messageData);
+  
+      // Update the chat room in the chat list
+      await chatRoomRef.set(
+        {
+          members: [user.email, otherUserEmail],
+          latestMessage: messageData.timestamp,
+        },
+        { merge: true }
+      );
+  
       setInput("");
     }
-  };  
+  };
 
   
   return (

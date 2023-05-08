@@ -143,7 +143,7 @@ function SignupPage() {
   return (
     <div className="signup-background">
         <div className="signup-box">
-        <div className="signup-title">회원가입하기</div>
+        <div className="signup-title">회원가입</div>
         <div className="inputForm">
             <div className="inputDiv">
               <input placeholder="이메일" className="signup-inputBox emailBox" type="text" value={email} onChange={(e) => onChangeEmail(e)} ref={emailInputRef}></input>

@@ -63,7 +63,7 @@ function LoginPage() {
   return (
     <div className="login-background">
         <div className="login-box">
-        <div className="login-title">로그인하기</div>
+        <div className="login-title">로그인</div>
         <div className="inputForm">
             <div className="inputDiv">
               <input placeholder="이메일" className="login-inputBox" type="text" value={email} onChange={onEmailHandler}></input>
@@ -76,6 +76,7 @@ function LoginPage() {
             </div>
         </div>
         <button className="login-button" onClick={loginClick}>로그인</button>
+        <button className="login-sign-button" onClick={signupClick}>회원가입</button>
     </div>
     </div>
   );

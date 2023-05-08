@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 
 function Chat() {
   const [user, setUser] = useState(null);
- const [chatRooms, setChatRooms] = useState({});
+  const [chatRooms, setChatRooms] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState("");
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -16,6 +16,7 @@ function Chat() {
   
 
   useEffect(() => {
+    console.log("otherUserEmail:", otherUserEmail); // Add this line
   if (otherUserEmail && user) {
     findOrCreateChatRoom(otherUserEmail);
   }
@@ -35,49 +36,14 @@ function Chat() {
   }, []);
 
   useEffect(() => {
-  if (user) {
-    db.collection("chatRooms")
-      .where("members", "array-contains", user.email)
-      .onSnapshot(async (snapshot) => {
-        const newChatRooms = {};
-
-        for (const doc of snapshot.docs) {
-          const chatRoomId = doc.id;
-          const chatRoomData = doc.data();
-
-          // Get the other user's email and nickname
-          const otherUserEmail = chatRoomData.members.find((memberEmail) => memberEmail !== user.email);
-          const otherUserSnapshot = await db.collection("users").where("email", "==", otherUserEmail).get();
-
-          // Check if otherUserSnapshot.docs is not empty
-          if (!otherUserSnapshot.empty) {
-            const otherUserNickname = otherUserSnapshot.docs[0].data().nickname;
-
-            // Get the latest message and timestamp
-            const messagesSnapshot = await db
-              .collection("chatRooms")
-              .doc(chatRoomId)
-              .collection("messages")
-              .orderBy("timestamp", "desc")
-              .limit(1)
-              .get();
-
-            const latestMessage = messagesSnapshot.docs[0]?.data()?.text;
-            const lastMessageTimestamp = messagesSnapshot.docs[0]?.data()?.timestamp;
-
-            newChatRooms[chatRoomId] = {
-              ...chatRoomData,
-              otherUserNickname,
-              latestMessage,
-              lastMessageTimestamp,
-            };
-          }
-        }
-
-        setChatRooms(newChatRooms);
-      });
-     }
-}, [user]);
+    if (user) {
+      db.collection("chatRooms")
+        .where("members", "array-contains", user.email)
+        .onSnapshot((snapshot) => {
+          setChatRooms(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+        });
+    }
+  }, [user]);
 
   useEffect(() => {
     if (selectedRoom) {
@@ -90,7 +56,48 @@ function Chat() {
         });
     }
   }, [selectedRoom]);
-  const findOrCreateChatRoom = async (otherUserEmail) => {
+  useEffect(() => {
+    const sortChatRoomsByLatestMessage = async () => {
+      const sortedChatRooms = await Promise.all(
+        chatRooms.map(async (chatRoom) => {
+          const latestMessage = await getLatestMessageTimestamp(chatRoom.id);
+          return { ...chatRoom, latestMessage };
+        })
+      );
+  
+      sortedChatRooms.sort((a, b) => b.latestMessage - a.latestMessage);
+      setChatRooms(sortedChatRooms);
+    };
+  
+    if (chatRooms.length > 0) {
+      sortChatRoomsByLatestMessage();
+    }
+  }, [chatRooms]);
+  const getLatestMessageTimestamp = async (chatRoomId) => {
+  try {
+    const snapshot = await db
+      .collection("chatRooms")
+      .doc(chatRoomId)
+      .collection("messages")
+      .orderBy("timestamp", "desc")
+      .limit(1)
+      .get();
+
+    if (!snapshot.empty) {
+      return snapshot.docs[0].data().timestamp;
+    }
+  } catch (error) {
+    console.error("Error fetching latest message timestamp:", error);
+  }
+
+  return 0;
+};
+const findOrCreateChatRoom = async (otherUserEmail) => {
+  if (otherUserEmail === user.email) {
+    console.log("Cannot create a chat room with yourself");
+    return;
+  }
+
   try {
     const otherUserSnapshot = await db
       .collection("users")
@@ -133,38 +140,56 @@ function Chat() {
     const otherMember = chatRoom.members.filter((member) => member !== user.uid)[0];
     return otherMember || 'Unknown';
   };
-  const sendMessage = (e) => {
+  const sendMessage = async (e) => {
     e.preventDefault();
     if (input.trim()) {
-      db.collection("chatRooms")
-        .doc(selectedRoom)
-        .collection("messages")
-        .add({
-          text: input,
-          sender: user.uid,
-          timestamp: new Date().getTime(),
-        });
+      if (!selectedRoom) {
+        await findOrCreateChatRoom(otherUserEmail);
+      }
+  
+      const messageData = {
+        text: input,
+        sender: user.uid,
+        timestamp: new Date().getTime(),
+      };
+  
+      const chatRoomRef = db.collection("chatRooms").doc(selectedRoom);
+  
+      // Add the message to the chat room's messages collection
+      await chatRoomRef.collection("messages").add(messageData);
+  
+      // Update the chat room in the chat list
+      await chatRoomRef.set(
+        {
+          members: [user.email, otherUserEmail],
+          latestMessage: messageData.timestamp,
+        },
+        { merge: true }
+      );
+  
       setInput("");
     }
-  };  
+  };
 
   
   return (
     <div className="chat-background">
-    <div className="chat-list">
-      {Object.entries(chatRooms).map(([chatRoomId, chatRoomData]) => {
-        return (
-          <button
-            className="chat-button"
-            key={chatRoomId}
-            onClick={() => setSelectedRoom(chatRoomId)}
-          >
-            {chatRoomData.otherUserNickname} - {chatRoomData.latestMessage} -{" "}
-            {new Date(chatRoomData.lastMessageTimestamp).toLocaleDateString()}
-          </button>
-        );
-      })}
-    </div>
+      <div className="chat-list">
+      {chatRooms.map((chatRoom) => {
+  const otherUserEmail = chatRoom.members.find(
+    (memberEmail) => memberEmail !== user.email
+  );
+
+  return (
+    <button className="chat-button"
+      key={chatRoom.id}
+      onClick={() => setSelectedRoom(chatRoom.id)}
+    >
+      {otherUserEmail}
+    </button>
+  );
+})}
+</div>
 <div className="chat-room">
       {selectedRoom && (
         <div>
@@ -191,7 +216,7 @@ function Chat() {
           </form>
         </div>
       )} </div>
-      <div>
+      {/* <div>
        
         <input
           type="text"
@@ -199,10 +224,10 @@ function Chat() {
           value={otherUserEmail}
           onChange={(e) => setOtherUserEmail(e.target.value)}
         />
-        {/* <button onClick={() => findOrCreateChatRoom(otherUserEmail)}>
+        <button onClick={() => findOrCreateChatRoom(otherUserEmail)}>
           Find or create chat room
-        </button> */}
-      </div>
+        </button>
+      </div> */}
     </div>
   );
 }

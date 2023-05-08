@@ -12,7 +12,8 @@ function SideBar() {
     const [subject, setSubject] = useState("whole");
     
     // const [white, setWhite] = useState("whole");
-
+    
+      
     useEffect(() => {
         localStorage.setItem("subject", subject);
     }, [subject]);
@@ -38,10 +39,36 @@ function SideBar() {
             dispatchStorageEvent("town_status", true);
         }
     }
+    const getKakaoAddress = async (latitude, longitude) => {
+        const API_KEY = 'aa29e63fe27035e56f624827b0bbcb08';
+        const API_URL = `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${longitude}&y=${latitude}`;
+      
+        const response = await fetch(API_URL, {
+          headers: {
+            Authorization: `KakaoAK ${API_KEY}`,
+          },
+        });
+        const data = await response.json();
+        const address = data.documents[0].address_name;
+        return address;
+      };
     const townInfo = () => {
-        console.log("동네정보");
-        localStorage.setItem("town", "삼각산동");
-        dispatchStorageEvent("town", "삼각산동");
+        try {
+            navigator.geolocation.getCurrentPosition(
+              async (position) => {
+                const { latitude, longitude } = position.coords;
+                const address = await getKakaoAddress(latitude, longitude);
+                localStorage.setItem("town", address);
+                setTown(address);
+                dispatchStorageEvent("town", address);
+              },
+              (error) => {
+                console.error("Error fetching location:", error);
+              }
+            );
+          } catch (error) {
+            console.error("Error getting user location:", error);
+          }
     }
     const wholeClick = () =>{
         setSubject("whole");
