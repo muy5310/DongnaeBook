@@ -118,11 +118,23 @@ function SignupPage() {
   const signupPost = async (e) => {
     try {
       const result = await auth.createUserWithEmailAndPassword(email, password);
-      const userRef = firebase.database().ref(`users/${result.user.uid}`);
-      userRef.set({
+      
+      // Firestore에 사용자 정보 저장
+      const userRef = db.collection("users").doc(result.user.uid);
+      await userRef.set({
         email: email,
-        nickname: nickname
+        uid: result.user.uid,
+        nickname: nickname,
       });
+
+      // Realtime Database에 사용자 정보 저장
+      const userRealtimeRef = firebase.database().ref(`users/${result.user.uid}`);
+      await userRealtimeRef.set({
+        email: email,
+        uid: result.user.uid,
+        nickname: nickname,
+      });
+
       movePage("/login");
     } catch (error) {
       console.error("Error creating user:", error);
@@ -130,7 +142,7 @@ function SignupPage() {
   };
   return (
     <div className="signup-background">
-        <div className="black-background">
+        <div className="signup-box">
         <div className="signup-title">회원가입하기</div>
         <div className="inputForm">
             <div className="inputDiv">

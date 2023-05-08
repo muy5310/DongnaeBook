@@ -12,14 +12,15 @@ function Chat() {
   const [input, setInput] = useState("");
   const [otherUserId, setOtherUserId] = useState("");
   const location = useLocation();
-  const otherUserEmail = location.state && location.state.otherUserEmail;
+  const [otherUserEmail, setOtherUserEmail] = useState(location.state && location.state.otherUserEmail);
+  
 
   useEffect(() => {
-    if (otherUserEmail) {
-      console.log("또확인", otherUserEmail)
-      createChatRoom(otherUserEmail);
-    }
-  }, [otherUserEmail]);
+    console.log("otherUserEmail:", otherUserEmail); // Add this line
+  if (otherUserEmail && user) {
+    findOrCreateChatRoom(otherUserEmail);
+  }
+}, [otherUserEmail, user]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -55,6 +56,45 @@ function Chat() {
         });
     }
   }, [selectedRoom]);
+  const findOrCreateChatRoom = async (otherUserEmail) => {
+  try {
+    const otherUserSnapshot = await db
+      .collection("users")
+      .where("email", "==", otherUserEmail)
+      .get();
+
+    if (!otherUserSnapshot.empty) {
+      const otherUser = otherUserSnapshot.docs[0].data();
+
+      // Get all chat rooms that contain the current user
+      const chatRoomSnapshot = await db
+        .collection("chatRooms")
+        .where("members", "array-contains", user.email)
+        .get();
+
+      // Find an existing chat room between the two users
+      const existingChatRoom = chatRoomSnapshot.docs.find(
+        (doc) => doc.data().members.includes(otherUser.email)
+      );
+
+      if (existingChatRoom) {
+        // If a chat room already exists, select it
+        setSelectedRoom(existingChatRoom.id);
+      } else {
+        // If a chat room doesn't exist, create a new one
+        const newChatRoom = await db.collection("chatRooms").add({
+          members: [user.email, otherUser.email],
+        });
+
+        setSelectedRoom(newChatRoom.id);
+      }
+    } else {
+      console.log("User with the given email not found");
+    }
+  } catch (error) {
+    console.error("Error finding or creating chat room:", error);
+  }
+};
   const chatRoomTitle = (chatRoom) => {
     const otherMember = chatRoom.members.filter((member) => member !== user.uid)[0];
     return otherMember || 'Unknown';
@@ -72,41 +112,19 @@ function Chat() {
         });
       setInput("");
     }
-  };
+  };  
 
-  const createChatRoom = async (otherUserEmail) => {
-    try {
-      const otherUserSnapshot = await db
-        .collection("users")
-        .where("email", "==", otherUserEmail)
-        .get();
   
-      if (!otherUserSnapshot.empty) {
-        const otherUser = otherUserSnapshot.docs[0].data();
-        const newChatRoom = await db.collection("chatRooms").add({
-          members: [user.email, otherUser.email],
-        });
-  
-        setSelectedRoom(newChatRoom.id);
-      } else {
-        console.log("User with the given email not found");
-      }
-    } catch (error) {
-      console.error("Error creating chat room:", error);
-    }
-  };
-  
-
   return (
     <div className="chat-background">
-      <div>
+      <div className="chat-list">
       {chatRooms.map((chatRoom) => {
   const otherUserEmail = chatRoom.members.find(
     (memberEmail) => memberEmail !== user.email
   );
 
   return (
-    <button
+    <button className="chat-button"
       key={chatRoom.id}
       onClick={() => setSelectedRoom(chatRoom.id)}
     >
@@ -115,6 +133,7 @@ function Chat() {
   );
 })}
 </div>
+<div className="chat-room">
       {selectedRoom && (
         <div>
           <div>
@@ -139,18 +158,19 @@ function Chat() {
             <button type="submit">Send</button>
           </form>
         </div>
-      )}
-       <div>
+      )} </div>
+      {/* <div>
+       
         <input
           type="text"
-          placeholder="Other user's ID"
-          value={otherUserId}
-          onChange={(e) => setOtherUserId(e.target.value)}
+          placeholder="Other user's email"
+          value={otherUserEmail}
+          onChange={(e) => setOtherUserEmail(e.target.value)}
         />
-        <button onClick={() => createChatRoom(otherUserId)}>
-          Create new chat room
+        <button onClick={() => findOrCreateChatRoom(otherUserEmail)}>
+          Find or create chat room
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

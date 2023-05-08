@@ -1,9 +1,9 @@
-.signup-background{
-    margin-top:250px;
+.login-background{
+    margin-top:230px;
     padding-top:30px;
     font-size:20px;
   }
-  .black-background{
+  .login-box{
     margin: auto;
     padding: 20px;
     width: 550px;
