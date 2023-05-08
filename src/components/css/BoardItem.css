@@ -9,6 +9,9 @@
     padding:20px;
     cursor:default;
 }
+.board-div:hover{
+    background-color: rgb(239, 241, 244);
+}
 .board-top{
     display: flex;
     margin-bottom: 15px;

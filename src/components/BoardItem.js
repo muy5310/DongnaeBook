@@ -1,8 +1,10 @@
 import React,{useState} from "react";
 import "./css/BoardItem.css";
+import { useNavigate } from "react-router-dom";
 
 function BoardItem({item, onChatButtonClick}) {
   let subjectClassName = "";
+  const movePage = useNavigate();
 
   switch (item.subject) {
     case "BOOK 교환":
@@ -18,11 +20,19 @@ function BoardItem({item, onChatButtonClick}) {
       subjectClassName = "board-subject-default";
       break;
   }
+  
+  const chatClick = ({email, uid}) =>{
+    if (!localStorage.getItem("email")) {
+      movePage('/login');
+    }else{
+      onChatButtonClick(item.email, uid);
+    }
+  }
   return (
    <div className="board-div">
     <div className="board-top">
       <div className="board-title">{item.title}</div>
-      <div className="board-chat" onClick={() => onChatButtonClick(item.email)}>
+      <div className="board-chat" onClick={() => chatClick(item.email, item.uid)}>
         <div className="board-user">{item.nickname}</div>
         <div className="board-chat-icon"></div>
       </div>

@@ -16,11 +16,15 @@ function BoardPage() {
   //               {id:5, user:"1", nickname:"하사", subject:"교환", age:"", job:"학생", tag:"자존감", title:"dd", contents:"5", date:"2023.01.03", comment:4, town:"삼각산동"},
   //               {id:6, user:"1", nickname:"하사", subject:"교환", age:"", job:"학생", tag:"자존감", title:"dd", contents:"5", date:"2023.01.03", comment:4, town:"서구"}
   // ]
+  
   const navigate = useNavigate();
 
-  const handleChatButtonClick = (email) => {
-    console.log('gggggggggggg,::',email);
-    navigate("/chat", { state: { otherUserEmail: email } });
+  const handleChatButtonClick = (email, writer) => {
+    if (auth.currentUser.email === writer) {
+      navigate("/chat");
+    } else {
+      navigate("/chat", { state: { otherUserEmail: email } });
+    }
   };
 
   const [title, setTitle] = useState("전체 게시판");
@@ -33,6 +37,14 @@ function BoardPage() {
 
   //글 목록 가져오기
   const [postList, setPostList] = useState([]);
+  //scroll
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToTop();
+  }, [subject, age, job, hashtag, townStatus]);
 
   useEffect(() => {
     const fetchData = async () => {

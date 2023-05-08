@@ -61,8 +61,8 @@ function LoginPage() {
     }
   
   return (
-    <div className="signup-background">
-        <div className="black-background">
+    <div className="login-background">
+        <div className="login-box">
         <div className="login-title">로그인하기</div>
         <div className="inputForm">
             <div className="inputDiv">
