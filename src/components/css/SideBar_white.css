@@ -1,0 +1,116 @@
+.side-background{
+    position: fixed;
+    top:320px;
+    left:0px;
+    width: 600px;
+    height: 1500px;
+    background-color: rgb(255, 255, 255);
+    color:rgb(0, 0, 0);
+    /* display : flex; */
+    justify-content: center;
+    /* align-items : center; */
+}
+.town-div{
+    font-size: 35px;
+    width:400px;
+    margin: 0 auto;
+    margin-top:150px;
+    margin-bottom: 50px;
+    /* background-color: rgb(95, 42, 42); */
+    display: flex;
+    
+}
+.gps-icon{
+    width: 40px;
+    height: 40px;
+    margin:0 10px;
+    float:left;
+}
+.town-button{
+    cursor: pointer;
+    display: flex;
+    border-radius: 20px;
+    font-size: 35px;
+    font-weight: bold;
+    background-color: rgb(0, 0, 0);
+    color:rgb(255, 255, 255);
+    width:220px;
+    height: 50px;
+    padding: 10px;
+    /* padding-top:18px; */
+    align-items: center;
+}
+.town-button:hover{
+    /* background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%); */
+    background-image: linear-gradient(to top, #c1dfc4 0%, #deecdd 100%);
+    /* background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%); */
+}
+.town-text{
+    /* background-color: blueviolet; */
+    width: 70%;
+}
+/* .town-check{
+    margin-left: auto;
+    float: right;
+    color: white;
+    width:80px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+input:checked+labl::before{
+	background-color: red;
+}    
+
+input#town_check.town-check{
+  content:"";
+  background-color:#F47C7C;
+  border-color:#F47C7C;
+  background-position: 50%;
+  } */
+  .town-check {
+    display: none;
+  }
+  
+  /* 사용자 정의 체크박스 디자인을 만듭니다. */
+  .town-check + label {
+    position: relative;
+    margin-left: auto;
+    margin-right:40px;
+    margin-top:15px;
+    cursor: pointer;
+  }
+  
+  .town-check + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #4a4646;
+    background-color: #000000;
+    box-sizing: border-box;
+  }
+  
+  /* 체크박스가 선택됐을 때 배경색을 분홍색으로 변경합니다. */
+  .town-check:checked + label:before {
+    background-color: #a2f1be;
+  }
+.board-box{
+    width:400px;
+    height:357px;
+    border: 4px solid rgb(0, 0, 0);
+    border-radius: 20px;
+    margin: 0 auto;
+    font-size: 35px;
+}
+.board-button{
+    padding: 25px;
+    cursor: pointer;
+}
+.board-button:hover{
+    background-color: rgb(0, 0, 0);
+    color:rgb(255, 255, 255);
+    font-weight: bold;
+}

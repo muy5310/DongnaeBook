@@ -1,0 +1,160 @@
+.signup-background{
+  margin-top:230px;
+  padding-top:30px;
+  font-size:20px;
+}
+.black-background{
+  margin: auto;
+  padding: 20px;
+  width: 550px;
+  height: 600px;
+  /* background: rgba(27, 21, 21, 0.68); */
+  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+  /* border-radius: 15px; */
+}
+.signup-title{
+  font-size: 40px;
+  font-weight: bold;
+  float:left;
+  padding-left:70px;
+  margin-bottom: 30px;
+  cursor: default;
+}
+.finishBtn{
+  font-size: 20px;
+  cursor: pointer;
+  width: 425px;
+  height: 60px;
+  background: #000000;
+  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+  border:none;
+  border-radius: 15px;
+  color:white;
+  text-align: center;
+  margin-top:20px;
+  font-weight: bold;
+}
+.finishBtn:disabled{
+    cursor: pointer;
+    width: 430px;
+    height: 60px;
+    background: #b0b0b0;
+    border: none;
+    border-radius: 10px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+    cursor: default;
+}
+  .SignupText{
+    float: left;
+    font-size: 40px;
+    font-weight: bolder;
+    margin-right:150px;
+  }
+  .inputForm{
+    /* border:3px solid black; */
+    width: 100%;
+    /* height:400px; */
+    overflow:auto;
+    margin-bottom: 40px;
+    
+  }
+  .signup-inputBox{
+    font-size:20px;
+    margin: 0;
+    margin-top:30px;
+    margin-bottom:10px;
+    border:none;
+    background-color: rgb(0, 0, 0);
+    border: 2px solid black;
+    /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+    border-radius: 10px;
+    width: 370px;
+    height: 50px;
+    padding-left: 40px;
+  }
+  .signup-inputBox:focus{
+    outline: 2px solid #000000;
+  }
+  .emailBox{
+    width: 280px;
+    background: white url(../../images/icons/profile.png) no-repeat scroll 7px 7px;
+  }
+  .passwordBox{
+    background: white url(../../images/icons/profile.png) no-repeat scroll 7px 7px;
+  }
+  .nameBox{
+    background: white url(../../images/icons/profile.png) no-repeat scroll 7px 7px;
+  }
+  .nicknameBox{
+    background: white url(../../images/icons/profile.png) no-repeat scroll 7px 7px;
+  }
+  .addressBox{
+    background: white url(../../images/icons/profile.png) no-repeat scroll 7px 7px;
+  }
+  .accountBox{
+    background: white url(../../images/icons/profile.png) no-repeat scroll 7px 7px;
+  }
+  .dupBtn{
+    background: #000000;
+    border:none;
+    /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+    border-radius: 10px;
+    color:white;
+    width:80px;
+    height: 55px;
+    cursor: pointer;
+    margin-left:10px;
+    font-size:15px;
+    /* font-weight: bold; */
+  }
+  .dupBtn:disabled{
+    font-size:15px;
+    background: #390F5A;
+    border:none;
+    /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+    border-radius: 10px;
+    color:white;
+    width:80px;
+    height: 55px;
+    margin-left:10px;
+    background: #b0b0b0;
+    border: none;
+    /* font-weight: bold; */
+    cursor: default;
+  }
+  .message {
+    font-weight: 500;
+    text-align: left;
+    padding-left:120px;
+  }
+    .message.success {
+      color: green;
+    }
+    .message.error {
+      color: rgb(222, 4, 4);
+    }
+
+/* 토스트메시지 */
+.Toastify__toast-container {
+  position:absolute;
+  top:100px;
+  /* background-color: yellow; */
+  /* border: 1px solid black; */
+}
+.Toastify__toast-body {
+  background-color: rgba(56, 9, 52, 0.5);
+  color:rgb(255, 255, 255);
+  border-radius: 20px;
+  height: 30px;
+}
+.Toastify__toast--default {
+  background-color: transparent !important;
+}
+.Toastify__toast {
+  box-shadow: none !important;
+  width:400px;
+  margin-left: -45px;
+}

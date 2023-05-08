@@ -1,0 +1,79 @@
+.board-div{
+    max-width:950px;
+    background-color: rgb(255, 255, 255);
+    width: 70%;
+    margin: 0 auto;
+    /* height:200px; */
+    align-items: center;
+    border-bottom: 2px solid black;
+    padding:20px;
+    cursor:default;
+}
+.board-top{
+    display: flex;
+    margin-bottom: 15px;
+}
+.board-title{
+    font-size: 25px;
+    font-weight: bold;
+}
+.board-chat{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    cursor:pointer;
+    background-color: rgb(255, 255, 255);
+    padding:3px 5px;
+    margin-top:-3px;
+    border-radius: 5px;
+    border:2px solid black;
+}
+.board-chat:hover{
+    border:3px solid black;
+}
+.board-chat-icon{
+    background-repeat: no-repeat;
+    background-size: 25px;
+    width:25px;
+    height: 25px;
+    background-image: url(../../images/icons/icon-chat.png);
+    margin-left: 5px;
+}
+
+.board-user{
+    font-size:18px;
+    font-weight: bold;
+    /* margin-left: auto; */
+}
+.board-mid{
+    display: flex;
+    font-size: 17px;
+    align-items: center;
+    
+}
+.board-subject{
+    background-color: rgb(243, 80, 80);
+    color:white;
+    font-size: 14px;
+    padding:3px;
+    font-weight: bold;
+    margin-right: 5px;
+}
+.board-subject-exchange{
+    background-color: rgb(131, 211, 132);
+    background-color: rgb(22, 72, 74);
+}
+.board-subject-recommend{
+    background-color: rgb(145, 223, 252);
+    
+}
+.board-subject-review{
+    background-color: rgb(255, 134, 134);
+}
+.board-town{
+    margin-left: auto;
+}
+.board-contents{
+    margin-top:20px;
+    display: flex;
+}

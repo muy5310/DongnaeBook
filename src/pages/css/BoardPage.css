@@ -1,0 +1,28 @@
+.boardpage-background{
+    margin-top:250px;
+    padding-top:30px;
+    font-size:20px;
+}
+.boardname{
+    background-color: white;
+    width: 100%;
+    position: fixed;
+    padding-top:20px;
+    top:200px;
+    margin:0 auto;
+    font-size: 30px;
+  font-weight: bold;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.boardname-line{
+    max-width:950px;
+    /* background-color: rgb(91, 26, 26); */
+    width: 70%;
+    border-bottom: 1px solid black;
+    padding : 0 20px;
+    padding-bottom: 10px;
+    
+}
