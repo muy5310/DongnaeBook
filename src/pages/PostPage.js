@@ -23,6 +23,8 @@ function PostPage() {
     const [job, setJob] = useState("전체");
     const [hashtag, setHashtag] = useState("전체");
     const [town, setTown] = useState(localStorage.getItem("town"));
+    const [lat, setLat] = useState(localStorage.getItem("lat"));
+    const [lon, setLon] = useState(localStorage.getItem("lon"));
 
    
     const movePage = useNavigate();
@@ -123,6 +125,8 @@ function PostPage() {
           job,
           hashtag,
           town,
+          lat,
+          lon,
           user_id: currentUser.uid,
           email: localStorage.getItem("email"),
           nickname: localStorage.getItem("nickname"),

@@ -33,6 +33,8 @@ function BoardPage() {
   const [job, setJob] = useState(localStorage.getItem("job") || "전체");
   const [hashtag, setHashtag] = useState(localStorage.getItem("hashtag") || "전체");
   const [townStatus, setTownStatus] = useState(localStorage.getItem("town_status") === "true");
+  const [latStatus, setLat] = useState(localStorage.getItem("lat") || "");
+  const [lonStatus, setLon] = useState(localStorage.getItem("lon") || "");
   const [town, setTown] = useState(localStorage.getItem("town") || "");
 
   //글 목록 가져오기
@@ -100,6 +102,24 @@ function BoardPage() {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
+  
+  //반경
+  const getDistanceFromLatLonInM = (lat1, lon1, lat2, lon2) => {
+  const R = 6371; // Radius of the earth in km
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const d = R * c; // Distance in km
+  return d * 1000; // Distance in m
+}
+
+const deg2rad = (deg) => {
+  return deg * (Math.PI / 180);
+}
   //필터링
   
   const filteredList = postList.filter((item) => {
@@ -108,14 +128,18 @@ function BoardPage() {
     const jobMatches = job === "전체" || item.job === job;
     const tagMatches = hashtag === "전체" || item.hashtag === hashtag;
     let townMatches = true;
-  
+    let distanceMatches = true;
+
     if (townStatus) {
       townMatches = item.town === town;
+      distanceMatches = getDistanceFromLatLonInM(userLat, userLon, item.lat, item.lon) <= 4000;
     } else if (item.subject === "교환") {
       townMatches = item.town === town;
+      distanceMatches = getDistanceFromLatLonInM(userLat, userLon, item.lat, item.lon) <= 4000;
     }
+    
   
-    return subjectMatches && ageMatches && jobMatches && tagMatches && townMatches;
+    return subjectMatches && ageMatches && jobMatches && tagMatches && townMatches && distanceMatches;
   });
   
   return (

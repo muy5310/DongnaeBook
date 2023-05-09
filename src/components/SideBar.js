@@ -58,6 +58,8 @@ function SideBar() {
               async (position) => {
                 const { latitude, longitude } = position.coords;
                 const address = await getKakaoAddress(latitude, longitude);
+                localStorage.setItem("lat", lat);
+                localStorage.setItem("lon", lon);
                 localStorage.setItem("town", address);
                 setTown(address);
                 dispatchStorageEvent("town", address);
