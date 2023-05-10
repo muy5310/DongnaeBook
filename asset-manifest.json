@@ -1,0 +1,16 @@
+{
+  "main.css": "/static/css/main.ed2a678c.chunk.css",
+  "main.js": "/static/js/main.b6dee73c.chunk.js",
+  "main.js.map": "/static/js/main.b6dee73c.chunk.js.map",
+  "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+  "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+  "static/js/2.5f65f0cb.chunk.js": "/static/js/2.5f65f0cb.chunk.js",
+  "static/js/2.5f65f0cb.chunk.js.map": "/static/js/2.5f65f0cb.chunk.js.map",
+  "index.html": "/index.html",
+  "precache-manifest.24629afb9b133530c0efd4d5620c1dc1.js": "/precache-manifest.24629afb9b133530c0efd4d5620c1dc1.js",
+  "service-worker.js": "/service-worker.js",
+  "static/css/main.ed2a678c.chunk.css.map": "/static/css/main.ed2a678c.chunk.css.map",
+  "static/media/BoardItem.css": "/static/media/icon-chat.711cd12f.png",
+  "static/media/TopBar.css": "/static/media/profile.e82481e8.png",
+  "static/media/maps.png": "/static/media/maps.bcf5cc7a.png"
+}
