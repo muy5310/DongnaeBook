@@ -20,6 +20,7 @@
     align-items : center;
 }
 .log-button{
+    /* width: 10; */
     cursor: pointer;
     /* width:100px; */
     /* position: fixed;
@@ -68,9 +69,9 @@
 .topbar-button{
     /* background-image: url(images/icons/pen.png); */
     background-repeat: no-repeat;
-    background-size: 40px;
-    width:40px;
-    height: 40px;
+    background-size: 30px;
+    width:30px;
+    height: 30px;
     background-color: black;
     border: none;
     cursor: pointer;
@@ -84,8 +85,8 @@
 }
 .myinfo-button{
     background-image: url(../../images/icons/profile.png);
-    background-size: 45px;
-    width:45px;
-    height: 45px;
+    background-size: 35px;
+    width:35px;
+    height: 35px;
     margin-left: 5px;
 }

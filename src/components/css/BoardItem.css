@@ -5,7 +5,7 @@
     margin: 0 auto;
     /* height:200px; */
     align-items: center;
-    border-bottom: 2px solid black;
+    border-bottom: 1px solid rgb(115, 113, 113);
     padding:20px;
     cursor:default;
 }
@@ -29,7 +29,7 @@
     padding:3px 5px;
     margin-top:-3px;
     border-radius: 5px;
-    border:2px solid black;
+    border:2px solid rgb(0, 0, 0);
 }
 .board-chat:hover{
     border:3px solid black;

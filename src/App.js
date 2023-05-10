@@ -16,7 +16,6 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = (term) => {
-    console.log('AA')
     setSearchTerm(term);
   };
   if (!localStorage.getItem("subject")||!localStorage.getItem("lat")) {
