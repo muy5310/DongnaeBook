@@ -10,9 +10,8 @@ function ChatPage() {
   const [selectedRoom, setSelectedRoom] = useState("");
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const [otherUserId, setOtherUserId] = useState("");
   const location = useLocation();
-  const [otherUserEmail, setOtherUserEmail] = useState(location.state && location.state.otherUserEmail);
+  const otherUserEmail = useState(location.state && location.state.otherUserEmail);
   const [otherUserNicknames, setOtherUserNicknames] = useState({});
   const messagesEndRef = useRef(null);
 

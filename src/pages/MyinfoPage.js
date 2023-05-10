@@ -20,15 +20,10 @@ function MyinfoPage() {
       navigate("/chat", { state: { otherUserEmail: email } });
     }
   };
-  const currentEmail = localStorage.getItem("email");
-  const [town, setTown] = useState(localStorage.getItem("town") || "");
 
   //글 목록 가져오기
   const [postList, setPostList] = useState([]);
   //scroll
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  };
 
   useEffect(() => {
     window.onbeforeunload = function pushRefresh() {

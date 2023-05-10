@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./css/FullPage.css";
-// import TopBar from "components/TopBar";
 import CategoryBar from "../components/CategoryBar";
 import SideBar from "../components/SideBar";
 import BoardPage from "./BoardPage.js";
-import { db, auth } from "../firebaseConfig";
-import { useNavigate } from "react-router-dom";
+import { auth } from "../firebaseConfig";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 

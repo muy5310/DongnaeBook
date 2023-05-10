@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import BoardItem from './BoardItem';
 import "./css/BoardList.css";
 

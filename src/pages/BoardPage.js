@@ -25,7 +25,6 @@ function BoardPage({searchTerm}) {
   const [townStatus, setTownStatus] = useState(localStorage.getItem("town_status") === "true");
   const [lat, setLat] = useState(localStorage.getItem("lat") || "");
   const [lon, setLon] = useState(localStorage.getItem("lon") || "");
-  const [town, setTown] = useState(localStorage.getItem("town") || "");
 
   //글 목록 가져오기
   const [postList, setPostList] = useState([]);
@@ -88,7 +87,6 @@ function BoardPage({searchTerm}) {
       if (e.key === "job") setJob(e.newValue);
       if (e.key === "hashtag") setHashtag(e.newValue);
       if (e.key === "town_status") setTownStatus(e.newValue);
-      if (e.key === "town") setTown(e.newValue);
       if (e.key === "lat") setLat(e.newValue);
       if (e.key === "lon") setLon(e.newValue);
     };

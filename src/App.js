@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import BoardPage from './pages/BoardPage';
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -8,8 +7,6 @@ import ChatPage from './pages/ChatPage';
 import MyinfoPage from './pages/MyinfoPage';
 import PostPage from './pages/PostPage';
 import TopBar from "./components/TopBar";
-import CategoryBar from "./components/CategoryBar";
-import SideBar from "./components/SideBar";
 import './App.css';
 
 function App() {
@@ -41,8 +38,6 @@ function App() {
       <Router>
       <div className="full-background">
       <TopBar onSearch={handleSearch}></TopBar>
-        {/* <CategoryBar></CategoryBar>
-        <SideBar></SideBar> */}
     </div>
         <Routes>
           <Route path='/' element={<MainPage searchTerm={searchTerm}/>} />
