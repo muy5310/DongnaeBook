@@ -58,8 +58,8 @@ function SideBar() {
               async (position) => {
                 const { latitude, longitude } = position.coords;
                 const address = await getKakaoAddress(latitude, longitude);
-                localStorage.setItem("lat", lat);
-                localStorage.setItem("lon", lon);
+                localStorage.setItem("lat", latitude);
+                localStorage.setItem("lon", longitude);
                 localStorage.setItem("town", address);
                 setTown(address);
                 dispatchStorageEvent("town", address);
@@ -97,7 +97,7 @@ function SideBar() {
         <div className="town-div">
             <div className="town-button" onClick={townInfo}>
                 <img src={gpsicon} className="gps-icon" alt="gps icon"/>
-                <div className="town-text" >{town}</div>
+                <div className="town-text" >{town.split(" ").pop()}</div>
             </div>
             <input className="town-check" type="checkbox" id="town_check" checked={town_status} onClick={checkClick}></input>
             <label htmlFor="town_check"></label>

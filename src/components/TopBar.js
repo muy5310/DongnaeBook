@@ -5,10 +5,24 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import "./css/TopBar.css";
 
-function TopBar() {
+function TopBar({onSearch}) {
   const movePage = useNavigate();
   const [loginStatus, setLoginStatus] = useState(false);
   const [logButton, setLogButton] = useState("로그아웃");
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  const searchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const searchClick = () => {
+    console.log('검색', searchTerm);
+    if(searchTerm !== ""){
+
+      onSearch(searchTerm); // BoardPage에 검색어 전달
+      movePage('/');
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -82,11 +96,11 @@ function TopBar() {
     <div>
       {/* <div className="top-line">로그인</div> */}
     <div className="top-background">
-        <div className="logo" onClick={logoClick}></div>
-        <div className="search-form">
-            <input className="search-input" type="text" placeholder="도서명, 지역명, 해시태그 입력"></input>
-            <button className="search-button" type="button"></button>
-        </div>
+        <div className="logo" onClick={logoClick}  ></div>
+        <form className="search-form" onSubmit={(e) => {e.preventDefault(); searchClick();}}>
+          <input className="search-input" type="text" placeholder="도서명, 해시태그 등 입력" value={searchTerm} onChange={searchChange}></input>
+          <button className="search-button" type="button" onClick={searchClick}></button>
+        </form>
         <button className="topbar-button write-button" type="button" onClick={postClick}></button>
         <button className="topbar-button chat-button" type="button" onClick={chatClick}></button>
         <button className="topbar-button myinfo-button" type="button" onClick={myinfoClick}></button>
@@ -95,6 +109,7 @@ function TopBar() {
     
     </div>
   );
+
 }
 
 export default TopBar;

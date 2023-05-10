@@ -41,7 +41,7 @@ function BoardItem({item, onChatButtonClick}) {
     <div className="board-mid">
     <div className={`board-subject ${subjectClassName}`}>{item.subject}</div>
       <div className="board-date">{item.date}</div>
-      <div className="board-town">{item.town}</div>
+      <div className="board-town">{item.town.split(" ").pop()}</div>
     </div>
       <div className="board-contents">{item.content}</div>
     </div>

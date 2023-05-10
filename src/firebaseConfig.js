@@ -4,14 +4,15 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/database'; 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCeFyFAbvnzwt8Ig-p2tIxQswP9N8LugpE",
-    authDomain: "dongnaebook-f85d2.firebaseapp.com",
-    databaseURL: "https://dongnaebook-f85d2-default-rtdb.firebaseio.com",
-    projectId: "dongnaebook-f85d2",
-    storageBucket: "dongnaebook-f85d2.appspot.com",
-    messagingSenderId: "379315826696",
-    appId: "1:379315826696:web:5e03fd0831a1f62df1a1bd"
-  };
+  apiKey: "AIzaSyDj5A80kAmi_nH7cpErcXDe4f3T3jRmAOo",
+  authDomain: "dongnaebook-f946f.firebaseapp.com",
+  projectId: "dongnaebook-f946f",
+  storageBucket: "dongnaebook-f946f.appspot.com",
+  messagingSenderId: "1081660599001",
+  appId: "1:1081660599001:web:fb56fa1e348d0bee35acc8",
+  measurementId: "G-14827WHBKX"
+};
+
   
 
 firebase.initializeApp(firebaseConfig);

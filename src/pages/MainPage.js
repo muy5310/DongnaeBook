@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 
-function MainPage() {
+function MainPage({searchTerm}) {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
           if (user) {
@@ -30,8 +30,10 @@ function MainPage() {
   return (
     <div>
         <CategoryBar></CategoryBar>
+        <div className="main-background">
         <SideBar></SideBar>
-        <BoardPage></BoardPage>
+        <BoardPage searchTerm={searchTerm}></BoardPage>
+        </div>
     </div>
   );
 }

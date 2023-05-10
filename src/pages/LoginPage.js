@@ -48,38 +48,39 @@ function LoginPage() {
     const signupClick = () => {
       movePage("/signup")
     }
-    const loginClick = () => {
-        if(email === ''){
-            setError(true);
-            setErrorMessage('이메일을 입력해 주세요');
-        }else if(password === ''){
-            setError(true);
-            setErrorMessage('비밀번호를 입력해 주세요');
-        }else{
-            isLogin();
-        }
+    const loginClick = (e) => {
+      e.preventDefault(); // form이 자동으로 페이지를 리프레시하는 것을 막음
+      if (email === '') {
+        setError(true);
+        setErrorMessage('이메일을 입력해 주세요');
+      } else if (password === '') {
+        setError(true);
+        setErrorMessage('비밀번호를 입력해 주세요');
+      } else {
+        isLogin();
+      }
     }
   
-  return (
-    <div className="login-background">
+    return (
+      <div className="login-background">
         <div className="login-box">
-        <div className="login-title">로그인</div>
-        <div className="inputForm">
+          <div className="login-title">로그인</div>
+          <form onSubmit={loginClick} className="inputForm">
             <div className="inputDiv">
               <input placeholder="이메일" className="login-inputBox" type="text" value={email} onChange={onEmailHandler}></input>
             </div>
             <div className="inputDiv">
               <input className="login-inputBox passwordBox" placeholder="비밀번호" type="password" value={password} onChange={onPasswordHandler}></input>
               {error && (
-              <div className={`login-message`}>{errorMessage}</div>
-          )}
+                <div className={`login-message`}>{errorMessage}</div>
+              )}
             </div>
+            <button type="submit" className="login-button">로그인</button>
+          </form>
+          <button className="login-sign-button" onClick={signupClick}>회원가입</button>
         </div>
-        <button className="login-button" onClick={loginClick}>로그인</button>
-        <button className="login-sign-button" onClick={signupClick}>회원가입</button>
-    </div>
-    </div>
-  );
-}
+      </div>
+    );
+  }
 
 export default LoginPage;

@@ -87,6 +87,7 @@
     outline: none;
 }
 .content-input{
+    line-height:35px;
     font-family: 'NanumSquare';
     resize: none;
     width:98%;
@@ -132,4 +133,5 @@
     text-align: center;
     margin-top:40px;
     font-weight: bold;
+    margin-bottom: 40px;
   }

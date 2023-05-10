@@ -1,235 +1,134 @@
-import React, { useState, useEffect } from "react";
-import { db, auth } from "../firebaseConfig";
-import "./css/ChatPage.css";
-import { useLocation } from 'react-router-dom';
-
-
-function Chat() {
-  const [user, setUser] = useState(null);
-  const [chatRooms, setChatRooms] = useState([]);
-  const [selectedRoom, setSelectedRoom] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
-  const [otherUserId, setOtherUserId] = useState("");
-  const location = useLocation();
-  const [otherUserEmail, setOtherUserEmail] = useState(location.state && location.state.otherUserEmail);
-  
-
-  useEffect(() => {
-    console.log("otherUserEmail:", otherUserEmail); // Add this line
-  if (otherUserEmail && user) {
-    findOrCreateChatRoom(otherUserEmail);
-  }
-}, [otherUserEmail, user]);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-        console.log('확인',user);
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-    ;
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      db.collection("chatRooms")
-        .where("members", "array-contains", user.email)
-        .onSnapshot((snapshot) => {
-          setChatRooms(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-        });
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (selectedRoom) {
-      db.collection("chatRooms")
-        .doc(selectedRoom)
-        .collection("messages")
-        .orderBy("timestamp", "asc")
-        .onSnapshot((snapshot) => {
-          setMessages(snapshot.docs.map((doc) => doc.data()));
-        });
-    }
-  }, [selectedRoom]);
-  useEffect(() => {
-    const sortChatRoomsByLatestMessage = async () => {
-      const sortedChatRooms = await Promise.all(
-        chatRooms.map(async (chatRoom) => {
-          const latestMessage = await getLatestMessageTimestamp(chatRoom.id);
-          return { ...chatRoom, latestMessage };
-        })
-      );
-  
-      sortedChatRooms.sort((a, b) => b.latestMessage - a.latestMessage);
-      setChatRooms(sortedChatRooms);
-    };
-  
-    if (chatRooms.length > 0) {
-      sortChatRoomsByLatestMessage();
-    }
-  }, [chatRooms]);
-  const getLatestMessageTimestamp = async (chatRoomId) => {
-  try {
-    const snapshot = await db
-      .collection("chatRooms")
-      .doc(chatRoomId)
-      .collection("messages")
-      .orderBy("timestamp", "desc")
-      .limit(1)
-      .get();
-
-    if (!snapshot.empty) {
-      return snapshot.docs[0].data().timestamp;
-    }
-  } catch (error) {
-    console.error("Error fetching latest message timestamp:", error);
-  }
-
-  return 0;
-};
-const findOrCreateChatRoom = async (otherUserEmail) => {
-  if (otherUserEmail === user.email) {
-    console.log("Cannot create a chat room with yourself");
-    return;
-  }
-
-  try {
-    const otherUserSnapshot = await db
-      .collection("users")
-      .where("email", "==", otherUserEmail)
-      .get();
-
-    if (!otherUserSnapshot.empty) {
-      const otherUser = otherUserSnapshot.docs[0].data();
-
-      // Get all chat rooms that contain the current user
-      const chatRoomSnapshot = await db
-        .collection("chatRooms")
-        .where("members", "array-contains", user.email)
-        .get();
-
-      // Find an existing chat room between the two users
-      const existingChatRoom = chatRoomSnapshot.docs.find(
-        (doc) => doc.data().members.includes(otherUser.email)
-      );
-
-      if (existingChatRoom) {
-        // If a chat room already exists, select it
-        setSelectedRoom(existingChatRoom.id);
-      } else {
-        // If a chat room doesn't exist, create a new one
-        const newChatRoom = await db.collection("chatRooms").add({
-          members: [user.email, otherUser.email],
-        });
-
-        setSelectedRoom(newChatRoom.id);
-      }
-    } else {
-      console.log("User with the given email not found");
-    }
-  } catch (error) {
-    console.error("Error finding or creating chat room:", error);
-  }
-};
-  const chatRoomTitle = (chatRoom) => {
-    const otherMember = chatRoom.members.filter((member) => member !== user.uid)[0];
-    return otherMember || 'Unknown';
-  };
-  const sendMessage = async (e) => {
-    e.preventDefault();
-    if (input.trim()) {
-      if (!selectedRoom) {
-        await findOrCreateChatRoom(otherUserEmail);
-      }
-  
-      const messageData = {
-        text: input,
-        sender: user.uid,
-        timestamp: new Date().getTime(),
-      };
-  
-      const chatRoomRef = db.collection("chatRooms").doc(selectedRoom);
-  
-      // Add the message to the chat room's messages collection
-      await chatRoomRef.collection("messages").add(messageData);
-  
-      // Update the chat room in the chat list
-      await chatRoomRef.set(
-        {
-          members: [user.email, otherUserEmail],
-          latestMessage: messageData.timestamp,
-        },
-        { merge: true }
-      );
-  
-      setInput("");
-    }
-  };
-
-  
-  return (
-    <div className="chat-background">
-      <div className="chat-list">
-      {chatRooms.map((chatRoom) => {
-  const otherUserEmail = chatRoom.members.find(
-    (memberEmail) => memberEmail !== user.email
-  );
-
-  return (
-    <button className="chat-button"
-      key={chatRoom.id}
-      onClick={() => setSelectedRoom(chatRoom.id)}
-    >
-      {otherUserEmail}
-    </button>
-  );
-})}
-</div>
-<div className="chat-room">
-      {selectedRoom && (
-        <div>
-          <div>
-            {messages.map((message, index) => (
-              <p
-              key={index}
-              style={{
-                color: message.sender === user.uid ? "black" : "yellow",
-              }}
-            >
-              {message.text}
-            </p>
-            ))}
-          </div>
-          <form onSubmit={sendMessage}>
-            <input className="chat-input"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              type="text"
-              placeholder="Type a message"
-            />
-            <button type="submit">Send</button>
-          </form>
-        </div>
-      )} </div>
-      {/* <div>
-       
-        <input
-          type="text"
-          placeholder="Other user's email"
-          value={otherUserEmail}
-          onChange={(e) => setOtherUserEmail(e.target.value)}
-        />
-        <button onClick={() => findOrCreateChatRoom(otherUserEmail)}>
-          Find or create chat room
-        </button>
-      </div> */}
-    </div>
-  );
+.chat-background {
+  margin-top:140px;
+  display: flex;
+  height: 80vh;
+  overflow: hidden;
 }
 
-export default Chat;
+.chat-list {
+  width: 50%;
+  height: 100%;
+  overflow-y: auto;
+  border-right: 1px solid #ddd;
+  padding: 10px;
+  margin-top:40px;
+  overflow-x:hidden;
+}
+
+.chat-room {
+  margin-top:20px;
+  position: relative;
+  width: 50%;
+  height: 70%;
+  overflow-y: hidden;
+  padding: 10px;
+  overflow-x:hidden;
+}
+
+.chat-button {
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  color: #fff;
+  background-color: #007bff;
+  text-align: left;
+}
+
+.chat-room {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px;
+  width: 50%;
+  overflow-y: auto;
+}
+
+.chat-room-messages {
+  padding-right:20px;
+  margin-top:20px;
+  position: relative;
+  width: 97%;
+  height: 70%;
+  overflow-y: auto;
+  padding: 10px;
+  overflow-x:hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.chat-room-form{
+  width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.chat-room-input {
+  
+  width:45%;
+  position:fixed;
+  bottom:20px;
+  display: flex;
+  /* justify-content: space-between; */
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #ddd; /* Adjust as needed */
+overflow-y: auto;
+/* max-height: 200px; */
+}
+.chat-input {
+  font-family: 'NanumSquare';
+  border: 1px solid black;
+  width:80%;
+  min-height: 34px;
+  height: auto;
+  /* min-height: 30px;   */
+  max-height: 60px; 
+  overflow-y: auto;
+  resize: none;  /* This will prevent manual resizing */
+}
+.message-sender {
+  width:auto;
+  max-width: 70%;
+  background-color: yellow;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  
+  text-align: left;
+}
+p.message-receiver{
+  margin: 7px 0;
+  margin-right:auto;
+}
+p.message-sender{
+  margin: 7px 0;
+  margin-left:auto;
+}
+.message-receiver {
+  max-width: 80%;
+  background-color: skyblue;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: left;
+}
+.chat-room-messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;  /* Adjust this value based on the height of .chat-room-input */
+}
+.send-button{
+  
+  width:15%;
+  height:42px;
+  background-color: black;
+  color:white;
+  border: none;
+}
+//chat css

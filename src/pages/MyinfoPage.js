@@ -26,7 +26,8 @@ function BoardPage({searchTerm}) {
       navigate("/chat", { state: { otherUserEmail: email } });
     }
   };
-
+  const currentEmail = localStorage.getItem("email");
+//   const [userMail, setuserMail] = useState(localStorage.getItem("email"));
   const [title, setTitle] = useState("전체 게시판");
   const [subject, setSubject] = useState(localStorage.getItem("subject") || "whole");
   const [age, setAge] = useState(localStorage.getItem("age") || "전체");
@@ -130,23 +131,10 @@ const deg2rad = (deg) => {
   //필터링
   
   const filteredList = postList.filter((item) => {
-    const subjectMatches = subject === "whole" || item.subject === subject;
-    const ageMatches = age === "전체" || item.age === age;
-    const jobMatches = job === "전체" || item.job === job;
-    const tagMatches = hashtag === "전체" || item.hashtag === hashtag;
-    let townMatches = true;
-    let distanceMatches = true;
-
-    if (townStatus) {
-      townMatches = item.town === town;
-      distanceMatches = getDistanceFromLatLonInM(lat, lon, item.lat, item.lon) <= 4000;
-    } else if (item.subject === "교환") {
-      townMatches = item.town === town;
-      distanceMatches = getDistanceFromLatLonInM(lat, lon, item.lat, item.lon) <= 4000;
-    }
-    const searchTermMatches = searchTerm === "" || item.title.includes(searchTerm) || item.content.includes(searchTerm);
+    // Add this condition
+    const userMatches = auth.currentUser.email === item.email;
   
-    return subjectMatches && ageMatches && jobMatches && tagMatches && townMatches && distanceMatches && searchTermMatches;
+    return userMatches ;
   });
   
   return (

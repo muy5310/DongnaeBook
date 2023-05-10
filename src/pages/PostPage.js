@@ -59,6 +59,7 @@ function PostPage() {
         } else {
           // 사용자가 로그인되지 않았을 경우 다른 페이지로 이동합니다.
           movePage("/");
+
         }
       });
       return () => {
@@ -86,6 +87,8 @@ function PostPage() {
               const { latitude, longitude } = position.coords;
               const address = await getKakaoAddress(latitude, longitude);
               localStorage.setItem("town", address);
+              localStorage.setItem("lat", latitude);
+              localStorage.setItem("lon", longitude);
               setTown(address);
               console.log('add',address)
             },
@@ -107,7 +110,10 @@ function PostPage() {
         return `${year}.${month}.${day}`;
     }
     const postClick = async () => {
-        if(title === ''){
+        if (town === '내 동네'){
+          townInfo();
+        }
+        else if(title === ''){
             titleInputRef.current.focus();
         }else if(content === ''){
             contentInputRef.current.focus();
