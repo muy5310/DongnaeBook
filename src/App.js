@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import BoardPage from './pages/BoardPage';
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
@@ -32,13 +32,13 @@ function App() {
     localStorage.setItem("subject", "whole");
     localStorage.setItem("age", "전체");
     localStorage.setItem("job", "전체");
-    localStorage.setItem("tag", "전체");
+    localStorage.setItem("hashtag", "전체");
   }
   
   window.onbeforeunload = resetBoardStatus;
   return (
     <div className="App">
-      <BrowserRouter>
+      <Router>
       <div className="full-background">
       <TopBar onSearch={handleSearch}></TopBar>
         {/* <CategoryBar></CategoryBar>
@@ -52,7 +52,7 @@ function App() {
           <Route path='/chat' element={<ChatPage />} />
           <Route path='/myinfo' element={<MyinfoPage />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </div>
   );
 }

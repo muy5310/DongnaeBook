@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef} from "react";
 import { realtimeDB as db, auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
-import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import "./css/PostPage.css";
 import gpsicon from "../images/icons/maps.png";
@@ -23,8 +22,8 @@ function PostPage() {
     const [job, setJob] = useState("전체");
     const [hashtag, setHashtag] = useState("전체");
     const [town, setTown] = useState(localStorage.getItem("town"));
-    const [lat, setLat] = useState(localStorage.getItem("lat"));
-    const [lon, setLon] = useState(localStorage.getItem("lon"));
+    const lat = localStorage.getItem("lat");
+    const lon= localStorage.getItem("lon");
 
    
     const movePage = useNavigate();

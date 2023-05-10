@@ -69,7 +69,7 @@
 }
 
 .chat-room-input {
-
+    background-color: white;
     width: 45%;
     position: fixed;
     bottom: 20px;
