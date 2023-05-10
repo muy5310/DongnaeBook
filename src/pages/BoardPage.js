@@ -134,19 +134,18 @@ const deg2rad = (deg) => {
     const ageMatches = age === "전체" || item.age === age;
     const jobMatches = job === "전체" || item.job === job;
     const tagMatches = hashtag === "전체" || item.hashtag === hashtag;
-    let townMatches = true;
     let distanceMatches = true;
-
+    console.log('주제', item.subject)
     if (townStatus) {
-      townMatches = item.town === town;
+      console.log('타운트루 계산')
       distanceMatches = getDistanceFromLatLonInM(lat, lon, item.lat, item.lon) <= 4000;
-    } else if (item.subject === "교환") {
-      townMatches = item.town === town;
+    } else if (item.subject === "BOOK 교환") {
+      console.log('교환주제 계산')
       distanceMatches = getDistanceFromLatLonInM(lat, lon, item.lat, item.lon) <= 4000;
     }
     const searchTermMatches = searchTerm === "" || item.title.includes(searchTerm) || item.content.includes(searchTerm);
   
-    return subjectMatches && ageMatches && jobMatches && tagMatches && townMatches && distanceMatches && searchTermMatches;
+    return subjectMatches && ageMatches && jobMatches && tagMatches && distanceMatches && searchTermMatches;
   });
   
   return (

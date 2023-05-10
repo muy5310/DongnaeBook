@@ -3,8 +3,6 @@
     display: flex;
     height: 80vh;
     overflow: hidden;
-    background-color: #1f2029; /* dark grey */
-    color: #fff;
 }
 
 .chat-list {
@@ -15,8 +13,6 @@
     padding: 10px;
     margin-top: 40px;
     overflow-x: hidden;
-    background-color: #1f2029; /* dark grey */
-    color: #fff;
 }
 
 .chat-room {
@@ -27,8 +23,6 @@
     overflow-y: hidden;
     padding: 10px;
     overflow-x: hidden;
-    background-color: #1f2029; /* dark grey */
-    color: #fff;
 }
 
 .chat-button {
@@ -39,8 +33,17 @@
     cursor: pointer;
     width: 100%;
     color: #fff;
-    background-color: #444;
+    background-color: #007bff;
     text-align: left;
+}
+
+.chat-room {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 10px;
+    width: 50%;
+    overflow-y: auto;
 }
 
 .chat-room-messages {
@@ -56,11 +59,9 @@
     flex-direction: column;
     height: 100%;
     overflow-y: auto;
-    background-color: #1f2029; /* dark grey */
-    color: #fff;
 }
 
-.chat-room-form{
+.chat-room-form {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -68,71 +69,76 @@
 }
 
 .chat-room-input {
+
     width: 45%;
     position: fixed;
     bottom: 20px;
     display: flex;
+    /* justify-content: space-between; */
     justify-content: center;
     align-items: center;
     padding: 10px;
     border-top: 1px solid #ddd;
+    /* Adjust as needed */
     overflow-y: auto;
-    background-color: #2b2b36; /* darker grey */
-    color: #fff;
+    /* max-height: 200px; */
 }
 
 .chat-input {
     font-family: 'NanumSquare';
-    border: 1px solid white;
+    border: 1px solid black;
     width: 80%;
     min-height: 34px;
     height: auto;
+    /* min-height: 30px;   */
     max-height: 60px;
     overflow-y: auto;
     resize: none;
-    background-color: #2b2b36; /* darker grey */
-    color: #fff;
+    /* This will prevent manual resizing */
 }
 
 .message-sender {
     width: auto;
     max-width: 70%;
-    background-color: #444;
+    background-color: yellow;
     padding: 10px;
     margin: 5px 0;
     border-radius: 5px;
+
     text-align: left;
 }
 
-p.message-receiver{
+p.message-receiver {
     margin: 7px 0;
     margin-right: auto;
 }
 
-p.message-sender{
+p.message-sender {
     margin: 7px 0;
     margin-left: auto;
 }
+
 .message-receiver {
     max-width: 80%;
-    background-color: #808080; /* grey */
+    background-color: skyblue;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
-    color: #FFFFFF; /* white */
     text-align: left;
 }
 
 .chat-room-messages {
     flex: 1;
     overflow-y: auto;
-    margin-bottom: 10px; /* Adjust this value based on the height of .chat-room-input */
+    margin-bottom: 10px;
+    /* Adjust this value based on the height of .chat-room-input */
 }
 
-.send-button{
+.send-button {
+
     width: 15%;
     height: 42px;
-    background-color: #000000; /* black */
-    color: #FFFFFF; /* white */
+    background-color: black;
+    color: white;
     border: none;
 }

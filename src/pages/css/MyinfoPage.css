@@ -1,0 +1,66 @@
+.myinfo-background {
+    margin-top: 200px;
+    padding-top: 30px;
+    font-size: 20px;
+
+}
+
+.info-div{
+    margin: 0 auto;
+    margin-top: 40px;
+    max-width: 950px;
+        /* background-color: rgb(91, 26, 26); */
+    width: 70%;
+    display: flex;
+    /* background-color: blue; */
+    padding: 0 20px;
+}
+.myinfo-title {
+    font-size: 40px;
+    font-weight: bold;
+    /* float: left; */
+    /* padding-left: 70px; */
+    margin-bottom: 20px;
+    cursor: default;
+}
+.info-left{
+    font-size: 25px;
+    font-weight: bold;
+}
+.info-right{
+    font-size: 23px;
+    font-weight: 400;
+    /* margin-left: auto; */
+    margin-left: 150px;
+    /* font-weight:600; */
+    color:rgb(118, 118, 118)
+}
+.myinfo-name {
+    background-color: white;
+    width: 100%;
+    position: fixed;
+    padding-top: 40px;
+    top: 100px;
+    margin: 0 auto;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: default;
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+}
+
+.myinfo-name-line {
+    margin:0 auto;
+    max-width: 950px;
+    /* background-color: rgb(91, 26, 26); */
+    width: 70%;
+    border-bottom: 1px solid black;
+    padding: 0 20px;
+    padding-bottom: 15px;
+    text-align: left;
+    padding-top:35px;
+}
+.myinfo-right{
+    margin-left: 70px;
+}
