@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# 동네BOOK
+## 📚 프로젝트 소개
+###  프로젝트 내용
+ 지역 주민들과 책을 교환 및 추천할 수 있는 커뮤니티 서비스
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 프로젝트 개발 배경
+ 독서를 하고 싶어도 너무 많은 카테고리와 정보의 양으로 정작 무슨 책을 읽는게 좋을지 몰라서 결국 독서를 포기한 경험이 있다.  
+또한 주변 친구들과 책을 바꿔읽고 소통을 하고 싶다는 생각이 있었는데 주변에 독서를 하는 사람이 없어 답답했다.   
+이러한 경험을 바탕으로 '나에게 맞는 책을 교환할 수 있는 도서 커뮤니티를 만들어보자'라는 생각에 이 프로젝트를 개발하게 되었다.
 
-## Available Scripts
+### 프로젝트 목적
 
-In the project directory, you can run:
+ 지역 주민들과 책에 대한 소통의 공간을 마련하여 지역 사회의 유대감 증진 및 독서 문화의 성장을 기대할 수 있고,
+차별화된 카테고리로 사용자 맞춤 정보를 제공한다.
 
-### `npm start`
+⚙️ 개발 환경
+-------------------------------
++ Framework : React  
++ Database : Firebase  
++ Hosting : GitHub Pages
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+📌 구현 내용
+---------------------------------
+### TopBar
++ 로고 클릭 시 메인 페이지 이동
++ 검색어 입력
++ 게시물 작성, 채팅, 내정보 페이지 이동
++ 로그인/회원가입, 로그아웃
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### CategoryBar
++ 카테고리를 도서의 종류로 나누지 않고, 사용자의 현재 상황, 유형에 따라 원하는 정보를 찾을 수 있도록 나이, 직업, 해시태그로 구성
+  + 나이 : 전체, 10대 미만, 10대, 20대, 30대, 40대, 50대, 60대 이상
+  + 직업 : 전체, 학생, 주부, 교직, 전문직, 관리직, 사무직, 기능직, 서비스직, 자영업, 기타
+  + 해시태그 : 힐링, 우울, 성격, 자존감, 동기부여, 자기계발, 가족, 대인관계, 사회생활, 시간/돈 관리, 기타
 
-### `npm test`
+### SideBar
++ 전체, 책 교환, 책 추천, 책 리뷰로 구성
+  + 책 교환의 경우 주변 동네의 게시물만 렌더링
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 로그인 및 회원가입
++ 이메일 중복검사, 유효성 검사
++ 비밀번호 2차 확인
++ 유저 확인
 
-### `npm run build`
+### 메인페이지
++ 카테고리바의 키워드 및 사이드바의 게시물 주제와 일치하는 게시물 렌더링
++ 검색어와 일치하는 내용의 게시물 렌더링
++ 위치 버튼 
+  + 사용자의 현재 위치 정보 확인 : 카카오 REST API 사용  
+    -> 위도와 경도 기반으로 사용자의 주소 정보 반환
+  + 사용자의 위치 정보를 기반으로 'BOOK 교환' 게시물 렌더링
++ 위치 체크 버튼
+  + 해제 상태 : 책 교환 게시물 제외 위치와 상관없이 모든 게시물 렌더링
+  + 체크 상태 : 사용자와 반경 4km 이내 게시물만 렌더링
+* 로그아웃 상태 
+  + 책 교환 게시물 제외 다른 게시물 열람 가능
+  + 게시물 검색 가능
+  + 채팅, 게시물 작성, 내정보 확인 불가
+  
+### 포스트 페이지
++ 제목, 내용 입력
++ 글 주제 선택 : 책 교환, 책 추천, 책 리뷰
++ 카테고리 선택 : 나이, 직업, 해시태그
+  
+### 내정보 페이지
++ 유저의 이메일, 닉네임, 내 동네, 작성한 글 확인
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 채팅 페이지
++ 채팅 목록 확인, 실시간 채팅
++ 최근 메시지순으로 채팅목록 상단으로 업데이트
++ 게시물의 채팅 버튼을 눌러 채팅페이지로 이동시
+> + 채팅 이력이 있는 상대  
+: 해당 채팅 렌더링  
+> + 채팅 이력이 없는 상대  
+: 해당 상대와의 채팅방은 열리지만, 메시지를 보내지 않으면 채팅목록에 저장x  
+> + 내 게시물의 채팅 버튼 클릭 시  
+: 따로 채팅 생성x, 채팅 페이지로 이동만 하도록
