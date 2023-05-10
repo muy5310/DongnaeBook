@@ -2,21 +2,11 @@ import React, {useEffect, useState} from "react";
 import "./css/BoardPage.css";
 import { realtimeDB as db, auth } from "../firebaseConfig";
 import BoardList from '../components/BoardList';
-// import { useHistory } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
 
 function BoardPage({searchTerm}) {
-  
-  //더미데이터
-  // const list = [{id:1, user:"3", nickname:"화분", subject:"교환", age:"10", job:"학생", tag:"우울", title:"우울할 때 읽기 좋은 책 추천해 주세요", contents:"요즘 너무 힘들고, 인생이 외롭네요.. 이럴 때 읽기 좋은 책 추천부탁드려요..", town:"삼각산동"},
-  //               {id:2, user:"5", nickname:"하삼", subject:"리뷰", age:"0", job:"주부", tag:"성격", title:"dd", contents:"3", date:"2023.01.03", comment:4, town:"삼각산동"},
-  //               {id:3, user:"1", nickname:"하사", subject:"추천", age:"", job:"학생", tag:"자존감", title:"dd", contents:"5", date:"2023.01.03", comment:4, town:"희동"},
-  //               {id:4, user:"1", nickname:"하사", subject:"추천", age:"", job:"학생", tag:"자존감", title:"dd", contents:"5", date:"2023.01.03", comment:4, town:"삼각산동"},
-  //               {id:5, user:"1", nickname:"하사", subject:"교환", age:"", job:"학생", tag:"자존감", title:"dd", contents:"5", date:"2023.01.03", comment:4, town:"삼각산동"},
-  //               {id:6, user:"1", nickname:"하사", subject:"교환", age:"", job:"학생", tag:"자존감", title:"dd", contents:"5", date:"2023.01.03", comment:4, town:"서구"}
-  // ]
-  
+
   const navigate = useNavigate();
 
   const handleChatButtonClick = (email, writer) => {

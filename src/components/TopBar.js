@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db, auth } from "../firebaseConfig";
+import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
@@ -47,14 +47,22 @@ function TopBar({onSearch}) {
     try {
       await auth.signOut();
       console.log("로그아웃 성공");
-      window.location.reload();
+      window.location.reload(true);
+      localStorage.setItem("subject", "whole");
+      localStorage.setItem("age", "전체");
+      localStorage.setItem("job", "전체");
+      localStorage.setItem("hashtag", "전체");
     } catch (error) {
       console.error("Error signing out:", error);
     }
   };
   const logoClick = () => {
     movePage('/');
-    window.location.reload();
+    window.location.reload(true);
+    localStorage.setItem("subject", "whole");
+      localStorage.setItem("age", "전체");
+      localStorage.setItem("job", "전체");
+      localStorage.setItem("hashtag", "전체");
   }
   const logClick = () => {
     if(loginStatus){

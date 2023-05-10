@@ -15,10 +15,10 @@ function SignupPage() {
   }
   const emailInputRef = useRef(null);
   //입력 값 저장
-  const [email, setEmail] = useState('test@test.com');
-  const [password, setPassword] = useState('12345678');
-  const [password_check, setPasswordCheck] = useState('12345678');
-  const [nickname, setNickname] = useState('nicktest');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [password_check, setPasswordCheck] = useState('');
+  const [nickname, setNickname] = useState('');
 
   //오류 메시지 저장
   
