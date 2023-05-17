@@ -18,6 +18,14 @@
 + Framework : React  
 + Database : Firebase  
 + Hosting : GitHub Pages
++ IDE : VSCode
+
+💻 실행 방법
+-------------------------------
+```
+npm install
+npm run start
+```
 
 📌 구현 내용
 ---------------------------------
